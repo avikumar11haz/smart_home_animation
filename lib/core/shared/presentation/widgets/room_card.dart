@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:smart_home_animation/features/home/presentation/widgets/background_room_lights.dart';
 import 'package:ui_common/ui_common.dart';
@@ -34,9 +36,12 @@ class RoomCard extends StatelessWidget {
           // -----------------------------------------------
           // Background information card
           // -----------------------------------------------
-          Padding(
-            padding: const EdgeInsets.only(bottom: 180),
-            child: BackgroundRoomCard(room: room, translation: value),
+          Transform.scale(
+            scale: lerpDouble(0.85, 1.2, value),
+            child: Padding(
+              padding: const EdgeInsets.only(bottom: 180),
+              child: BackgroundRoomCard(room: room, translation: value),
+            ),
           ),
           // -----------------------------------------------
           // Room image card with parallax effect
