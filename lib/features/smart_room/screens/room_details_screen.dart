@@ -2,7 +2,9 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:smart_home_animation/core/shared/domain/entities/smart_room.dart';
+import 'package:smart_home_animation/core/shared/presentation/widgets/animated_upward_arrows.dart';
 import 'package:smart_home_animation/core/shared/presentation/widgets/parallax_image_card.dart';
+import 'package:smart_home_animation/core/shared/presentation/widgets/room_card.dart';
 import 'package:smart_home_animation/core/shared/presentation/widgets/sh_app_bar.dart';
 import 'package:ui_common/ui_common.dart';
 
@@ -44,6 +46,8 @@ class RoomDetailItems extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final sigma = 10 * animation.value;
+    final outDx = 200 * animation.value;
+    final outDy = 100 * animation.value;
     return Material(
       type: MaterialType.transparency,
       child: Hero(
@@ -62,34 +66,47 @@ class RoomDetailItems extends StatelessWidget {
             // --------------------------------------------
             // Animated output elements
             // --------------------------------------------
-            // Stack(
-            //   children: [
-            //     VerticalRoomTitle(room: room),
-            //     const CameraIconButton(),
-            //     const AnimatedUpwardArrows(),
-            //   ],
-            // ),
+            FadeTransition(
+              opacity: Tween<double>(begin: 1, end: 0).animate(animation),
+              child: Stack(
+                children: [
+                  Transform.translate(
+                    offset: Offset(-outDx, 0),
+                    child: VerticalRoomTitle(room: room),
+                  ),
+                  Transform.translate(
+                      offset: Offset(outDx, outDy),
+                      child: const CameraIconButton()),
+                  Transform.translate(
+                      offset: Offset(0, outDy),
+                      child: const AnimatedUpwardArrows()),
+                ],
+              ),
+            ),
             // --------------------------------------------
             // Room controls
             // --------------------------------------------
-            Container(
-              padding: EdgeInsets.only(top: topPadding + 12),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  Text(
-                    room.name.replaceAll(' ', '\n'),
-                    textAlign: TextAlign.center,
-                    style: context.displaySmall.copyWith(height: .9),
-                  ),
-                  const Text('SETTINGS', textAlign: TextAlign.center),
-                  Expanded(
-                    child: RoomDetailsPageView(
-                      room: room,
-                      animation: animation,
+            FadeTransition(
+              opacity: animation,
+              child: Container(
+                padding: EdgeInsets.only(top: topPadding + 12),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    Text(
+                      room.name.replaceAll(' ', '\n'),
+                      textAlign: TextAlign.center,
+                      style: context.displaySmall.copyWith(height: .9),
                     ),
-                  )
-                ],
+                    const Text('SETTINGS', textAlign: TextAlign.center),
+                    Expanded(
+                      child: RoomDetailsPageView(
+                        room: room,
+                        animation: animation,
+                      ),
+                    )
+                  ],
+                ),
               ),
             ),
           ],

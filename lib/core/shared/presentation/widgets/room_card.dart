@@ -60,11 +60,15 @@ class RoomCard extends StatelessWidget {
                 child: Hero(
                   tag: room.id,
                   flightShuttleBuilder: (_, animation, __, ___, ____) {
-                    return RoomDetailItems(
-                      room: room,
-                      topPadding: context.mediaQuery.padding.top,
-                      animation: animation,
-                    );
+                    return AnimatedBuilder(
+                        animation: animation,
+                        builder: (_, child) {
+                          return RoomDetailItems(
+                            room: room,
+                            topPadding: context.mediaQuery.padding.top,
+                            animation: animation,
+                          );
+                        });
                   },
                   child: Stack(
                     fit: StackFit.expand,
