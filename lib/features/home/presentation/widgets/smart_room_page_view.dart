@@ -41,7 +41,9 @@ class SmartRoomsPageView extends StatelessWidget {
                   itemBuilder: (_, index) {
                     final room = SmartRoom.fakeValues[index];
                     double percent = page - index;
-                    return Container(
+                    return AnimatedContainer(
+                      duration: const Duration(milliseconds: 200),
+                      curve: Curves.fastOutSlowIn,
                       padding: const EdgeInsets.symmetric(horizontal: 16),
                       transform: _getOutTranslate(
                         percent: percent,
