@@ -16,6 +16,16 @@ class SmartRoomsPageView extends StatelessWidget {
   final ValueNotifier pageNotifier;
   final ValueNotifier roomSelectorNotifier;
 
+  double _getoffsetX(double percent) => percent.isNegative ? 30 : -30;
+  Matrix4 _getOutTranslate(
+      {required double percent,
+      required int selectedRoom,
+      required int index}) {
+    final double x =
+        selectedRoom != index && selectedRoom != -1 ? _getoffsetX(percent) : 0;
+    return Matrix4.translationValues(x, 0, 0);
+  }
+
   @override
   Widget build(BuildContext context) {
     return ValueListenableBuilder(
@@ -33,9 +43,14 @@ class SmartRoomsPageView extends StatelessWidget {
                     double percent = page - index;
                     return Container(
                       padding: const EdgeInsets.symmetric(horizontal: 16),
+                      transform: _getOutTranslate(
+                        percent: percent,
+                        selectedRoom: selected,
+                        index: index,
+                      ),
                       child: RoomCard(
                         percent: percent,
-                        expand: selected != -1,
+                        expand: selected == index,
                         room: room,
                         onSwipeUp: () => roomSelectorNotifier.value = index,
                         onSwipeDown: () => roomSelectorNotifier.value = -1,
