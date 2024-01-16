@@ -59,11 +59,13 @@ class _HomeScreenState extends State<HomeScreen> {
                       pageNotifier: pageNotifier,
                       roomSelectorNotifier: roomSelectorNotifier,
                     ),
-                    const Positioned.fill(
+                    Positioned.fill(
                       top: null,
                       child: Column(
                         children: [
-                          PageIndicators(),
+                          PageIndicators(
+                            selectedRoomNotifier: roomSelectorNotifier,
+                          ),
                           SmHomeBottomNavigationBar(),
                         ],
                       ),

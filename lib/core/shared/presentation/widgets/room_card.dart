@@ -48,24 +48,27 @@ class RoomCard extends StatelessWidget {
           // -----------------------------------------------
           Padding(
             padding: const EdgeInsets.only(bottom: 200),
-            child: GestureDetector(
-              onTap: onTap,
-              onVerticalDragUpdate: (details) {
-                if (details.primaryDelta! < -10) onSwipeUp();
-                if (details.primaryDelta! > 10) onSwipeDown();
-              },
-              child: Stack(
-                fit: StackFit.expand,
-                clipBehavior: Clip.none,
-                children: [
-                  ParallaxImageCard(
-                    imageUrl: room.imageUrl,
-                    parallaxValue: percent,
-                  ),
-                  VerticalRoomTitle(room: room),
-                  const CameraIconButton(),
-                  const AnimatedUpwardArrows()
-                ],
+            child: Transform(
+              transform: Matrix4.translationValues(0, -90 * value, 0),
+              child: GestureDetector(
+                onTap: onTap,
+                onVerticalDragUpdate: (details) {
+                  if (details.primaryDelta! < -10) onSwipeUp();
+                  if (details.primaryDelta! > 10) onSwipeDown();
+                },
+                child: Stack(
+                  fit: StackFit.expand,
+                  clipBehavior: Clip.none,
+                  children: [
+                    ParallaxImageCard(
+                      imageUrl: room.imageUrl,
+                      parallaxValue: percent,
+                    ),
+                    VerticalRoomTitle(room: room),
+                    const CameraIconButton(),
+                    const AnimatedUpwardArrows()
+                  ],
+                ),
               ),
             ),
           ),

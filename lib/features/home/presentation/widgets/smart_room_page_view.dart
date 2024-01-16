@@ -22,37 +22,37 @@ class SmartRoomsPageView extends StatelessWidget {
         valueListenable: pageNotifier,
         builder: (_, page, __) {
           return ValueListenableBuilder(
-            valueListenable: roomSelectorNotifier,
-            builder: (_, selected, __) {
-              return PageView.builder(
-                controller: controller,
-                clipBehavior: Clip.none,
-                itemCount: SmartRoom.fakeValues.length,
-                itemBuilder: (_, index) {
-                  final room = SmartRoom.fakeValues[index];
-                  double percent = page - index;
-                  return Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 16),
-                    child: RoomCard(
-                      percent: percent,
-                      expand: selected != -1,
-                      room: room,
-                      onSwipeUp: () {},
-                      onSwipeDown: () {},
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => RoomDetailScreen(room: room),
-                          ),
-                        );
-                      },
-                    ),
-                  );
-                },
-              );
-            }
-          );
+              valueListenable: roomSelectorNotifier,
+              builder: (_, selected, __) {
+                return PageView.builder(
+                  controller: controller,
+                  clipBehavior: Clip.none,
+                  itemCount: SmartRoom.fakeValues.length,
+                  itemBuilder: (_, index) {
+                    final room = SmartRoom.fakeValues[index];
+                    double percent = page - index;
+                    return Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 16),
+                      child: RoomCard(
+                        percent: percent,
+                        expand: selected != -1,
+                        room: room,
+                        onSwipeUp: () => roomSelectorNotifier.value = index,
+                        onSwipeDown: () => roomSelectorNotifier.value = -1,
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) =>
+                                  RoomDetailScreen(room: room),
+                            ),
+                          );
+                        },
+                      ),
+                    );
+                  },
+                );
+              });
         });
   }
 }
